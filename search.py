@@ -90,16 +90,16 @@ def depthFirstSearch(problem):
   print "Start's successors:", problem.getSuccessors(problem.getStartState())
   '''
   # initialize a stack
-  frontior = util.Stack()
+  frontier = util.Stack()
   # initialize a set to mark the states visited
   visited = util.Counter() 
   # push current state into stack
-  # frontior structure is (state, route to this state)
-  frontior.push((problem.getStartState(),[]))
+  # frontier structure is (state, route to this state)
+  frontier.push((problem.getStartState(),[]))
   # deep first search
-  while ~frontior.isEmpty():
+  while not(frontier.isEmpty()):
       # pop a state
-      currentState = frontior.pop();
+      currentState = frontier.pop();
       # mark the state
       if visited[currentState[0]] == 0:
           visited[currentState[0]] += 1
@@ -111,9 +111,9 @@ def depthFirstSearch(problem):
               # push all approachable states into fringe
               ''' there is a bug when two or more same unvisited states in the stack
               if visited[child[0]] == 0:
-              fringe.push((child[0], currentState[1]+ [child[1], ]))
+              frontier.push((child[0], currentState[1]+ [child[1], ]))
               '''
-              frontior.push((child[0], currentState[1]+ [child[1], ]))
+              frontier.push((child[0], currentState[1]+ [child[1], ]))
   '''
   util.raiseNotDefined()
   '''
@@ -125,30 +125,32 @@ def breadthFirstSearch(problem):
   "*** YOUR CODE HERE ***"
   
   # initialize a queue
-  frontior = util.Queue()
+  frontier = util.Queue()
   # initialize a set to mark the states visited
   visited = util.Counter() 
   # push current state into queue
-  # frontior structure is (state, route to this state)
-  frontior.push((problem.getStartState(),[]))
+  # frontier structure is (state, route to this state)
+  frontier.push((problem.getStartState(),[]))
   # deep first search
-  while ~frontior.isEmpty():
+  while not(frontier.isEmpty()):
       # pop a state
-      currentState = frontior.pop();
+      currentState = frontier.pop();
       # mark the state
       if visited[currentState[0]] == 0:
           visited[currentState[0]] += 1
           # check the goal
           if problem.isGoalState(currentState[0]):
               # return the route
+              # print currentState[1]
               return currentState[1]
           for child in problem.getSuccessors(currentState[0]):
               # push all approachable states into fringe
               ''' there is a bug when two or more same unvisited states in the stack
               if visited[child[0]] == 0:
-              fringe.push((child[0], currentState[1]+ [child[1], ]))
+              frontier.push((child[0], currentState[1]+ [child[1], ]))
               '''
-              frontior.push((child[0], currentState[1]+ [child[1], ]))
+              if visited[child[0]] == 0:
+                frontier.push((child[0], currentState[1]+ [child[1], ]))
   #util.raiseNotDefined()
       
 def uniformCostSearch(problem):
@@ -160,16 +162,16 @@ def uniformCostSearch(problem):
   print "Start's successors:", problem.getSuccessors(problem.getStartState())
   '''
   # initialize a priority queue
-  frontior = util.PriorityQueue()
+  frontier = util.PriorityQueue()
   # initialize a set to mark the states visited
   visited = util.Counter() 
   # push current state into queue
-  # frontior structure is (state, route to this state, priority of this state)
-  frontior.push((problem.getStartState(),[],0), 0)
+  # frontier structure is (state, route to this state, priority of this state)
+  frontier.push((problem.getStartState(),[],0), 0)
   # deep first search
-  while ~frontior.isEmpty():
+  while not(frontier.isEmpty()):
       # pop a state
-      currentState = frontior.pop();
+      currentState = frontier.pop();
       # mark the state
       if visited[currentState[0]] == 0:
           visited[currentState[0]] += 1
@@ -181,9 +183,9 @@ def uniformCostSearch(problem):
               # push all approachable states into fringe
               ''' there is a bug when two or more same unvisited states in the stack
               if visited[child[0]] == 0:
-              fringe.push((child[0], currentState[1]+ [child[1], ]))
+              frontier.push((child[0], currentState[1]+ [child[1], ]))
               '''
-              frontior.push((child[0], currentState[1] + [child[1], ], currentState[2] + child[2]), currentState[2] + child[2])
+              frontier.push((child[0], currentState[1] + [child[1], ], currentState[2] + child[2]), currentState[2] + child[2])
   # util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
@@ -198,16 +200,16 @@ def aStarSearch(problem, heuristic=nullHeuristic):
   "*** YOUR CODE HERE ***"
   
     # initialize a priority queue
-  frontior = util.PriorityQueue()
+  frontier = util.PriorityQueue()
   # initialize a set to mark the states visited
   visited = util.Counter() 
   # push current state into queue
-  # frontior structure is (state, route to this state, priority of this state)
-  frontior.push((problem.getStartState(),[],0), 0)
+  # frontier structure is (state, route to this state, priority of this state)
+  frontier.push((problem.getStartState(),[],0), 0)
   # deep first search
-  while ~frontior.isEmpty():
+  while not(frontier.isEmpty()):
       # pop a state
-      currentState = frontior.pop();
+      currentState = frontier.pop();
       # mark the state
       if visited[currentState[0]] == 0:
           visited[currentState[0]] += 1
@@ -219,9 +221,9 @@ def aStarSearch(problem, heuristic=nullHeuristic):
               # push all approachable states into fringe
               ''' there is a bug when two or more same unvisited states in the stack
               if visited[child[0]] == 0:
-              fringe.push((child[0], currentState[1]+ [child[1], ]))
+              frontier.push((child[0], currentState[1]+ [child[1], ]))
               '''
-              frontior.push((child[0], currentState[1] + [child[1], ], currentState[2] + child[2]), currentState[2] + child[2] + nullHeuristic(child[0], problem))
+              frontier.push((child[0], currentState[1] + [child[1], ], currentState[2] + child[2]), currentState[2] + child[2] + nullHeuristic(child[0], problem))
   '''
   util.raiseNotDefined()
   '''

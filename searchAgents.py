@@ -5,6 +5,7 @@
 # purposes. The Pacman AI projects were developed at UC Berkeley, primarily by
 # John DeNero (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
 # For more info, see http://inst.eecs.berkeley.edu/~cs188/sp09/pacman.html
+from __builtin__ import True
 
 """
 This file contains all of the agents that can be selected to 
@@ -281,12 +282,18 @@ class CornersProblem(search.SearchProblem):
   def getStartState(self):
     "Returns the start state (in your state space, not the full Pacman state space)"
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    return (self.startingPosition,(0,0,0,0))
+    # util.raiseNotDefined()
     
   def isGoalState(self, state):
     "Returns whether this search state is a goal state of the problem"
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    for i in range(0,4):
+        if state[1][i] == 0:
+            return False
+    # print state[1]
+    return True
+    # util.raiseNotDefined()
        
   def getSuccessors(self, state):
     """
@@ -310,6 +317,33 @@ class CornersProblem(search.SearchProblem):
       #   hitsWall = self.walls[nextx][nexty]
       
       "*** YOUR CODE HERE ***"
+      x,y = state[0]
+      dx, dy = Actions.directionToVector(action)
+      nextx, nexty = int(x + dx), int(y + dy)
+      hitsWall = self.walls[nextx][nexty]
+      '''
+      print(self.walls)
+      print((nextx,nexty))
+      print("\n")
+      print self.startingPosition
+      '''
+      '''
+      if nextx > self.walls.width-2 or nextx < 1:
+          hitsWall = True
+      else:
+          if nexty > self.walls.height-2 or nexty < 1:
+              hitsWall = True
+          else:
+          '''
+      if not(hitsWall):
+          nextState = (nextx, nexty)
+          # print(nextState)
+          cornerState = list(state[1])
+          for i in range(0, 4):
+              if nextState == self.corners[i]:
+                  cornerState[i] += 1
+          # print((nextState, cornerState, action, 1 ))
+          successors.append(((nextState, tuple(cornerState)), action, 1 ) )
       
     self._expanded += 1
     return successors
@@ -346,8 +380,23 @@ def cornersHeuristic(state, problem):
   walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
   
   "*** YOUR CODE HERE ***"
-  return 0 # Default to trivial solution
+  
+  distance = 2 * walls.weight + 2 * walls.height
+  
+  return distance
+  '''
+  farthest = 0
+  for i in range(0,4):
+      if state[1][i] == 0:
+          farthest = max(farthest, util.manhattanDistance(state[0], corners[i]))
+  return farthest
+  '''
 
+      
+  
+  '''
+  return 0 # Default to trivial solution
+  '''
 class AStarCornersAgent(SearchAgent):
   "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
   def __init__(self):
