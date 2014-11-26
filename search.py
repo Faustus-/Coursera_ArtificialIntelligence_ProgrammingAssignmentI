@@ -5,6 +5,8 @@
 # purposes. The Pacman AI projects were developed at UC Berkeley, primarily by
 # John DeNero (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
 # For more info, see http://inst.eecs.berkeley.edu/~cs188/sp09/pacman.html
+import pacman
+from pacman import GameState
 
 """
 In search.py, you will implement generic search algorithms which are called 
@@ -82,27 +84,107 @@ def depthFirstSearch(problem):
   print "Start's successors:", problem.getSuccessors(problem.getStartState())
   """
   "*** YOUR CODE HERE ***"
-  
-  #util.raiseNotDefined()
-  from game import Directions
-  s = Directions.SOUTH
-  w = Directions.WEST
-  e = Directions.EAST
-  n = Directions.NORTH
-  
-  return  [s,s,w,s,w,w,s,w]
-  
+  '''
+  print "Start:", problem.getStartState()
+  print "Is the start a goal?", problem.isGoalState(problem.getStartState())
+  print "Start's successors:", problem.getSuccessors(problem.getStartState())
+  '''
+  # initialize a stack
+  frontior = util.Stack()
+  # initialize a set to mark the states visited
+  visited = util.Counter() 
+  # push current state into stack
+  # frontior structure is (state, route to this state)
+  frontior.push((problem.getStartState(),[]))
+  # deep first search
+  while ~frontior.isEmpty():
+      # pop a state
+      currentState = frontior.pop();
+      # mark the state
+      if visited[currentState[0]] == 0:
+          visited[currentState[0]] += 1
+          # check the goal
+          if problem.isGoalState(currentState[0]):
+              # return the route
+              return currentState[1]
+          for child in problem.getSuccessors(currentState[0]):
+              # push all approachable states into fringe
+              ''' there is a bug when two or more same unvisited states in the stack
+              if visited[child[0]] == 0:
+              fringe.push((child[0], currentState[1]+ [child[1], ]))
+              '''
+              frontior.push((child[0], currentState[1]+ [child[1], ]))
+  '''
+  util.raiseNotDefined()
+  '''
+    
   
 
 def breadthFirstSearch(problem):
   "Search the shallowest nodes in the search tree first. [p 74]"
   "*** YOUR CODE HERE ***"
-  util.raiseNotDefined()
+  
+  # initialize a queue
+  frontior = util.Queue()
+  # initialize a set to mark the states visited
+  visited = util.Counter() 
+  # push current state into queue
+  # frontior structure is (state, route to this state)
+  frontior.push((problem.getStartState(),[]))
+  # deep first search
+  while ~frontior.isEmpty():
+      # pop a state
+      currentState = frontior.pop();
+      # mark the state
+      if visited[currentState[0]] == 0:
+          visited[currentState[0]] += 1
+          # check the goal
+          if problem.isGoalState(currentState[0]):
+              # return the route
+              return currentState[1]
+          for child in problem.getSuccessors(currentState[0]):
+              # push all approachable states into fringe
+              ''' there is a bug when two or more same unvisited states in the stack
+              if visited[child[0]] == 0:
+              fringe.push((child[0], currentState[1]+ [child[1], ]))
+              '''
+              frontior.push((child[0], currentState[1]+ [child[1], ]))
+  #util.raiseNotDefined()
       
 def uniformCostSearch(problem):
   "Search the node of least total cost first. "
   "*** YOUR CODE HERE ***"
-  util.raiseNotDefined()
+  '''
+  print "Start:", problem.getStartState()
+  print "Is the start a goal?", problem.isGoalState(problem.getStartState())
+  print "Start's successors:", problem.getSuccessors(problem.getStartState())
+  '''
+  # initialize a priority queue
+  frontior = util.PriorityQueue()
+  # initialize a set to mark the states visited
+  visited = util.Counter() 
+  # push current state into queue
+  # frontior structure is (state, route to this state, priority of this state)
+  frontior.push((problem.getStartState(),[],0), 0)
+  # deep first search
+  while ~frontior.isEmpty():
+      # pop a state
+      currentState = frontior.pop();
+      # mark the state
+      if visited[currentState[0]] == 0:
+          visited[currentState[0]] += 1
+          # check the goal
+          if problem.isGoalState(currentState[0]):
+              # return the route
+              return currentState[1]
+          for child in problem.getSuccessors(currentState[0]):
+              # push all approachable states into fringe
+              ''' there is a bug when two or more same unvisited states in the stack
+              if visited[child[0]] == 0:
+              fringe.push((child[0], currentState[1]+ [child[1], ]))
+              '''
+              frontior.push((child[0], currentState[1] + [child[1], ], currentState[2] + child[2]), currentState[2] + child[2])
+  # util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
   """
@@ -114,8 +196,36 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
   "Search the node that has the lowest combined cost and heuristic first."
   "*** YOUR CODE HERE ***"
+  
+    # initialize a priority queue
+  frontior = util.PriorityQueue()
+  # initialize a set to mark the states visited
+  visited = util.Counter() 
+  # push current state into queue
+  # frontior structure is (state, route to this state, priority of this state)
+  frontior.push((problem.getStartState(),[],0), 0)
+  # deep first search
+  while ~frontior.isEmpty():
+      # pop a state
+      currentState = frontior.pop();
+      # mark the state
+      if visited[currentState[0]] == 0:
+          visited[currentState[0]] += 1
+          # check the goal
+          if problem.isGoalState(currentState[0]):
+              # return the route
+              return currentState[1]
+          for child in problem.getSuccessors(currentState[0]):
+              # push all approachable states into fringe
+              ''' there is a bug when two or more same unvisited states in the stack
+              if visited[child[0]] == 0:
+              fringe.push((child[0], currentState[1]+ [child[1], ]))
+              '''
+              frontior.push((child[0], currentState[1] + [child[1], ], currentState[2] + child[2]), currentState[2] + child[2] + nullHeuristic(child[0], problem))
+  '''
   util.raiseNotDefined()
-    
+  '''
+              
   
 # Abbreviations
 bfs = breadthFirstSearch
