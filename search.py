@@ -223,7 +223,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
               if visited[child[0]] == 0:
               frontier.push((child[0], currentState[1]+ [child[1], ]))
               '''
-              frontier.push((child[0], currentState[1] + [child[1], ], currentState[2] + child[2]), currentState[2] + child[2] + nullHeuristic(child[0], problem))
+              frontier.push((child[0], currentState[1] + [child[1], ], currentState[2] + child[2]), currentState[2] + child[2] + heuristic(child[0], problem))
   '''
   util.raiseNotDefined()
   '''

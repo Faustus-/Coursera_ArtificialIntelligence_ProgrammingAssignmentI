@@ -381,22 +381,44 @@ def cornersHeuristic(state, problem):
   
   "*** YOUR CODE HERE ***"
   
-  distance = 2 * walls.weight + 2 * walls.height
-  
-  return distance
-  '''
-  farthest = 0
+  distance = 999999
+  # nearest corner
+  j = 0
+  # number of visited corner
+  visited = 0
+  diaDistance = util.manhattanDistance(corners[0], corners[3])
+  # find the nearest corner j and distance
   for i in range(0,4):
-      if state[1][i] == 0:
-          farthest = max(farthest, util.manhattanDistance(state[0], corners[i]))
-  return farthest
-  '''
-
-      
-  
+      visited += state[1][i]
+      if state[1][i] == 0 and distance > util.manhattanDistance(state[0], corners[i]):
+        distance = util.manhattanDistance(state[0], corners[i])
+        j = i
+  # minimum distance
+  if visited == 0:
+      distance += 2 * (walls.height - 2) + walls.width
+  if visited == 1:
+      if ((j == 0 or j == 3) and (state[1][0] + state[1][3] == 1)) or ((j == 1 or j == 2) and (state[1][1] + state[1][2] == 1)):
+        distance += (walls.width - 2) + diaDistance
+      else :
+        distance += (walls.width - 2) + (walls.height - 2)
+  if visited == 2:
+     if (state[1][0] == 1 and state[1][1] == 1) or (state[1][2] == 1 and state[1][3] == 1):
+         distance += (walls.height - 2)
+     else:
+         if (state[1][1] == 1 and state[1][3] == 1) or (state[1][0] == 1 and state[1][2] == 1):
+             distance += (walls.width - 2)
+         else:
+             distance += diaDistance
+  if visited == 3:
+      return distance
+  if visited == 4:
+      return 0  
+  #print distance
+  return distance
   '''
   return 0 # Default to trivial solution
   '''
+
 class AStarCornersAgent(SearchAgent):
   "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
   def __init__(self):
