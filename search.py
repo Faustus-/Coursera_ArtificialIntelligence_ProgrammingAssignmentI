@@ -108,7 +108,7 @@ def depthFirstSearch(problem):
               # return the route
               return currentState[1]
           for child in problem.getSuccessors(currentState[0]):
-              # push all approachable states into fringe
+              # push all approachable states into frontier
               ''' there is a bug when two or more same unvisited states in the stack
               if visited[child[0]] == 0:
               frontier.push((child[0], currentState[1]+ [child[1], ]))
@@ -144,7 +144,7 @@ def breadthFirstSearch(problem):
               # print currentState[1]
               return currentState[1]
           for child in problem.getSuccessors(currentState[0]):
-              # push all approachable states into fringe
+              # push all approachable states into frontier
               ''' there is a bug when two or more same unvisited states in the stack
               if visited[child[0]] == 0:
               frontier.push((child[0], currentState[1]+ [child[1], ]))
@@ -180,7 +180,7 @@ def uniformCostSearch(problem):
               # return the route
               return currentState[1]
           for child in problem.getSuccessors(currentState[0]):
-              # push all approachable states into fringe
+              # push all approachable states into frontier
               ''' there is a bug when two or more same unvisited states in the stack
               if visited[child[0]] == 0:
               frontier.push((child[0], currentState[1]+ [child[1], ]))
@@ -218,7 +218,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
               # return the route
               return currentState[1]
           for child in problem.getSuccessors(currentState[0]):
-              # push all approachable states into fringe
+              # push all approachable states into frontier
               ''' there is a bug when two or more same unvisited states in the stack
               if visited[child[0]] == 0:
               frontier.push((child[0], currentState[1]+ [child[1], ]))

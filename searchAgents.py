@@ -380,7 +380,13 @@ def cornersHeuristic(state, problem):
   walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
   
   "*** YOUR CODE HERE ***"
-  
+
+  distance = 0
+  for i in range(0,4):
+      if state[1][i] == 0:
+          distance = max(distance, util.manhattanDistance(state[0], corners[i])) 
+
+  '''
   distance = 999999
   # nearest corner
   j = 0
@@ -413,6 +419,7 @@ def cornersHeuristic(state, problem):
       return distance
   if visited == 4:
       return 0  
+  '''
   #print distance
   return distance
   '''
